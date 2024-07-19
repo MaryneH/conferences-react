@@ -1,1 +1,1 @@
-# conferences-react
+# Maryne Heinfling
