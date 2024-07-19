@@ -1,0 +1,33 @@
+.admin-conferences {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .conference-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .conference-card h2 {
+    margin: 0 0 10px;
+    font-size: 1.2em;
+  }
+  
+  .conference-card button {
+    background-color: #dc3545;
+    border: none;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+  }
+  
+  .conference-card button:hover {
+    background-color: #c82333;
+  }
+  

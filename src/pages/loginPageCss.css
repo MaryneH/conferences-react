@@ -1,0 +1,9 @@
+.login-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 90vh;
+}
+strong{
+    font-size: 50px;
+}

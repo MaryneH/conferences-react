@@ -1,0 +1,11 @@
+.page-container {
+    font-family: Arial, sans-serif;
+  }
+  
+  .loading,
+  .access-denied {
+    font-size: 1.2em;
+    text-align: center;
+    margin-top: 50px;
+  }
+  

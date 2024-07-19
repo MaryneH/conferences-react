@@ -1,0 +1,27 @@
+.conference-detail {
+    padding: 0 200px;
+  }
+  
+  .conference-detail-image {
+    width: 100%;
+    height: auto;
+  }
+  
+  .conference-speakers,
+  .conference-stakeholders {
+    margin-top: 20px;
+  }
+  
+  .speaker,
+  .stakeholder {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .stakeholder-image {
+    width: 50px;
+    height: auto;
+    border-radius: 50%;
+  }
+  
