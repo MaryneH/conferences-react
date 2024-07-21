@@ -17,7 +17,7 @@
     font-size: 1.2em;
   }
   
-  .conference-card button {
+  .conference-card .deleteBtn {
     background-color: #dc3545;
     border: none;
     color: white;
@@ -27,7 +27,21 @@
     font-size: 0.9em;
   }
   
-  .conference-card button:hover {
+  .conference-card .deleteBtn:hover {
     background-color: #c82333;
   }
   
+  .conference-card .editBtn {
+    background-color: #3538dc;
+    border: none;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    margin-right: 5px;
+  }
+  
+  .conference-card .editBtn:hover {
+    background-color: #2349c8;
+  }

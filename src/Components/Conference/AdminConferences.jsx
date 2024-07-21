@@ -6,6 +6,7 @@ import './adminConferencesCss.css';
 const AdminConferences = () => {
   const [conferences, setConferences] = useState([]);
   const [error, setError] = useState(null);
+  const [selectedConference, setSelectedConference] = useState(null);
 
   useEffect(() => {
     const fetchConferences = async () => {
@@ -31,25 +32,35 @@ const AdminConferences = () => {
     }
   };
 
-  const handleSave = () => {
-    const fetchConferences = async () => {
-      try {
+  const handleUpdate = (conference) => {
+    setSelectedConference(conference);
+  };
+
+  const handleSave = async (updatedConference) => {
+    try {
+      if (selectedConference) {
         const data = await getAllConferences();
         setConferences(data);
-      } catch (error) {
-        setError('Error fetching conferences');
-        console.error('Error fetching conferences:', error);
+        setSelectedConference(null);
+      } else {
+        const data = await getAllConferences();
+        setConferences(data);
       }
-    };
-
-    fetchConferences();
+    } catch (error) {
+      setError('Error saving conference');
+      console.error('Error saving conference:', error);
+    }
   };
 
   return (
     <div className="admin-conferences">
       <h1>Gestion des conférences</h1>
       {error && <p style={{ color: 'red' }}>{error}</p>}
-      <ConferenceForm onSave={handleSave} />
+      <ConferenceForm
+        onSave={handleSave}
+        conference={selectedConference}
+        onCancel={() => setSelectedConference(null)}
+      />
       <div>
         {conferences.length === 0 ? (
           <p>Aucune conférence disponible</p>
@@ -57,7 +68,8 @@ const AdminConferences = () => {
           conferences.map(conference => (
             <div className="conference-card" key={conference.id}>
               <h2>{conference.title}</h2>
-              <button onClick={() => handleDelete(conference.id)}>Supprimer</button>
+              <button className='editBtn' onClick={() => handleUpdate(conference.id)}>Modifier</button>
+              <button className='deleteBtn' onClick={() => handleDelete(conference.id)}>Supprimer</button>
             </div>
           ))
         )}

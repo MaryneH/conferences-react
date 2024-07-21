@@ -1,17 +1,36 @@
-// src/api/conferenceApi.js
 import axios from 'axios';
 
-// Définissez l'URL de l'API et le token d'autorisation
 const API_URL = 'http://localhost:4555/conference';
+const CONFERENCES_URL = 'http://localhost:4555/conferences';
 
-// Fonction pour obtenir le token d'autorisation depuis le localStorage
 const getAuthToken = () => {
-  return localStorage.getItem('token');
+  return localStorage.getItem('authToken');
 };
 
-// Fonction pour créer une conférence
+// Fonction pour vérifier le statut d'administrateur
+const checkAdminStatus = async () => {
+  try {
+    if (getAuthToken()) {
+      const response = await axios.get('http://localhost:4555/isAdmin', {
+        headers: {
+          Authorization: `Bearer ${getAuthToken()}`
+        }
+      });
+      return response.data.isAdmin;
+    }
+    return false;
+  } catch (error) {
+    console.error('Error checking admin status:', error);
+    return false;
+  }
+};
+
+// Créer une conférence
 export const createConference = async (conference) => {
   try {
+    const isAdmin = await checkAdminStatus();
+    if (!isAdmin) throw new Error('Unauthorized');
+    
     const response = await axios.post(API_URL, conference, {
       headers: {
         Authorization: `Bearer ${getAuthToken()}`
@@ -24,10 +43,13 @@ export const createConference = async (conference) => {
   }
 };
 
-// Fonction pour mettre à jour une conférence
+// Mettre à jour une conférence
 export const updateConference = async (id, conference) => {
   try {
-    const response = await axios.patch(`${API_URL}?id=${id}`, { conference }, {
+    const isAdmin = await checkAdminStatus();
+    if (!isAdmin) throw new Error('Unauthorized');
+    
+    const response = await axios.patch(`${API_URL}/${id}`, conference, {
       headers: {
         Authorization: `Bearer ${getAuthToken()}`
       }
@@ -39,10 +61,13 @@ export const updateConference = async (id, conference) => {
   }
 };
 
-// Fonction pour supprimer une conférence
+// Supprimer une conférence
 export const deleteConference = async (id) => {
   try {
-    const response = await axios.delete(`${API_URL}?id=${id}`, {
+    const isAdmin = await checkAdminStatus();
+    if (!isAdmin) throw new Error('Unauthorized');
+    
+    const response = await axios.delete(`${API_URL}/${id}`, {
       headers: {
         Authorization: `Bearer ${getAuthToken()}`
       }
@@ -54,10 +79,10 @@ export const deleteConference = async (id) => {
   }
 };
 
-// Fonction pour obtenir toutes les conférences
+// Récupérer toutes les conférences (pas besoin de token)
 export const getAllConferences = async () => {
   try {
-    const response = await axios.get('http://localhost:4555/conferences');
+    const response = await axios.get(CONFERENCES_URL);
     return response.data;
   } catch (error) {
     console.error('Error fetching conferences:', error);
@@ -65,10 +90,10 @@ export const getAllConferences = async () => {
   }
 };
 
-// Fonction pour obtenir une conférence par ID
+// Récupérer une conférence par ID (pas besoin de token)
 export const getConferenceById = async (id) => {
   try {
-    const response = await axios.get(`http://localhost:4555/conference/${id}`);
+    const response = await axios.get(`${API_URL}/${id}`);
     return response.data;
   } catch (error) {
     console.error('Error fetching conference:', error);
